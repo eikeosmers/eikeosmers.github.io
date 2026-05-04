@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eike Osmers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f9f8f6;
+      --surface:  #ffffff;
+      --text:     #1a1a1a;
+      --muted:    #666;
+      --accent:   #2b5a8a;   /* change this to your preferred colour */
+      --border:   #e0ddd8;
+      --max-w:    960px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── Layout ────────────────────────────────────────────────── */
+    .page {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ─── Header: photo + bio side by side ─────────────────────── */
+    .header {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      margin-bottom: 56px;
+    }
+
+    .profile-col {
+      flex: 0 0 180px;
+      text-align: center;
+    }
+
+    .profile-col h1 {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .profile-col .role {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    /* icon-style link list */
+    .links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .links li a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+    }
+
+    .links svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* bio column */
+    .bio-col { flex: 1; }
+    .bio-col p { font-size: 0.97rem; margin-bottom: 0.9em; }
+    .bio-col p:last-child { margin-bottom: 0; }
+
+    /* ─── Section headings ──────────────────────────────────────── */
+    h2.section-title {
+      font-family: 'Lora', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 28px;
+    }
+
+    /* ─── News ──────────────────────────────────────────────────── */
+    .news { margin-bottom: 56px; }
+
+    .news ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.92rem;
+    }
+
+    .news li { display: flex; gap: 14px; }
+
+    .news .date {
+      flex: 0 0 80px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      padding-top: 2px;
+    }
+
+    /* ─── Publications ──────────────────────────────────────────── */
+    .publications { margin-bottom: 56px; }
+
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .pub {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+    }
+
+    .pub-thumb {
+      flex: 0 0 110px;
+    }
+
+    .pub-thumb img {
+      width: 110px;
+      height: 80px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: block;
+    }
+
+    /* placeholder when no image is provided */
+    .pub-thumb .thumb-placeholder {
+      width: 110px;
+      height: 80px;
+      background: var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .pub-info { flex: 1; }
+
+    .pub-title {
+      font-family: 'Lora', serif;
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      line-height: 1.4;
+    }
+
+    .pub-authors {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    /* bold your own name */
+    .pub-authors .me { font-weight: 600; color: var(--text); }
+
+    .pub-venue {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .pub-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .pub-links a {
+      display: inline-block;
+      padding: 2px 9px;
+      border: 1px solid var(--accent);
+      border-radius: 3px;
+      color: var(--accent);
+      font-weight: 600;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .pub-links a:hover {
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* bibtex toggle */
+    .bibtex-toggle { cursor: pointer; user-select: none; }
+
+    .bibtex-block {
+      display: none;
+      margin-top: 10px;
+      background: #f0ede8;
+      border-left: 3px solid var(--border);
+      padding: 10px 14px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      white-space: pre;
+      overflow-x: auto;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .bibtex-block.open { display: block; }
+
+    /* ─── Footer ────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 620px) {
+      .header { flex-direction: column; align-items: center; }
+      .profile-col { flex: none; width: 100%; }
+      .pub { flex-direction: column; }
+      .pub-thumb { width: 100%; }
+      .pub-thumb img, .pub-thumb .thumb-placeholder { width: 100%; height: 140px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════════════
+       HEADER — profile photo, name, bio
+       ═══════════════════════════════════════════════════════ -->
+  <div class="header">
+
+
+    <div class="profile-col">
+
+      <h1>Eike Osmers</h1>
+      <div class="role">
+        Researcher/PhD student<br>
+	TU Berlin
+      </div>
+
+      <ul class="links">
+        <li>
+          <a href="mailto:eikeosmers@tu-berlin.de">
+            <!-- envelope icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+            Email
+          </a>
+        </li>
+<!--
+        <li>
+          <a href="https://scholar.google.com/citations?user=FH0ZWGgAAAAJ" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M6 9.5v5a6 6 0 0 0 12 0v-5"/><path d="M20 7v6"/></svg>
+            Google Scholar
+          </a>
+        </li>
+-->
+        <li>
+          <a href="https://github.com/eikeosmers" target="_blank">
+            <!-- github icon -->
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+        </li>
+<!--
+        <li>
+          <a href="https://twitter.com/yourhandle" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Twitter / X
+          </a>
+        </li>
+-->
+<!-- 
+        <li>
+          <a href="files/cv.pdf" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            CV
+          </a>
+        </li>
+-->
+      </ul>
+    </div>
+
+    <!-- Right: biography text -->
+    <div class="bio-col">
+      <!--
+        Write 2–4 short paragraphs about yourself.
+        Bold your current position / institution with <strong>.
+      -->
+      <p>
+        I am a <strong>Researcher at mtec, TU Berlin</strong>, working on <em>closed-loop auditory simulation</em>. My work sits at the intersection of <em>signal processing</em> and <em>computational neuroscience</em>, with a focus on <em>sleep</em>.
+      </p>
+      <p>
+        My supervisor is <a href="https://www.tu.berlin/en/mtec/about/management-and-administration/dorothea-kolossa" target="_blank">Dorothea Kolossa</a>.
+      </p>
+    </div>
+  </div><!-- /.header -->
+
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       NEWS
+       ═══════════════════════════════════════════════════════ -->
+<!--
+  <section class="news">
+    <h2 class="section-title">News</h2>
+    <ul>
+      <li>
+        <span class="date">May 2026</span>
+        <span>New paper accepted at <a href="#">Some Conference</a> — check out the project page!</span>
+      </li>
+      <li>
+        <span class="date">Jan 2026</span>
+        <span>Started a new position at <a href="#">Some Institution</a>.</span>
+      </li>
+      <li>
+        <span class="date">Oct 2025</span>
+        <span>Presented work on [topic] at [venue].</span>
+      </li>
+    </ul>
+  </section>
+-->
+
+  <!-- ═══════════════════════════════════════════════════════
+       PUBLICATIONS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="publications">
+    <h2 class="section-title">Selected Publications</h2>
+    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:12px;">
+      For a full list see <a href="https://scholar.google.com/citations?user=FH0ZWGgAAAAJ" target="_blank">Google Scholar</a>.
+    </p>
+
+    <div class="pub-list">
+
+      <!-- ── Paper 1 ── -->
+      <div class="pub">
+        <div class="pub-thumb">
+          <!-- <img src="images/paper1.png" alt="Paper 1 teaser" /> -->
+          <!-- <div class="thumb-placeholder">No image</div> -->
+        </div>
+        <div class="pub-info">
+          <div class="pub-title">
+            <a href="https://arxiv.org/abs/2601.13962" target="_blank">
+              Optimal Calibration of the endpoint-corrected Hilbert Transform
+            </a>
+          </div>
+          <div class="pub-authors">
+            <span class="me">Eike Osmers</span>,
+            Dorothea Kolossa
+          </div>
+          <div class="pub-venue">arXiv preprint, 2026</div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2601.13962" target="_blank">Paper</a>
+            <a href="https://github.com/eikeosmers/cecht" target="_blank">Code</a>
+            <a class="bibtex-toggle" onclick="toggleBibtex(this)">BibTeX</a>
+          </div>
+          <pre class="bibtex-block">@misc{osmers2026optimalcalibrationendpointcorrectedhilbert,
+      title={Optimal Calibration of the endpoint-corrected Hilbert Transform}, 
+      author={Eike Osmers and Dorothea Kolossa},
+      year={2026},
+      eprint={2601.13962},
+      archivePrefix={arXiv},
+      primaryClass={eess.SP},
+      url={https://arxiv.org/abs/2601.13962}, 
+}</pre>
+        </div>
+      </div><!-- /.pub -->
+
+
+      <!-- ── Paper 2 ── -->
+      <div class="pub">
+        <div class="pub-thumb">
+          <!-- <img src="images/paper2.png" alt="Paper 2 teaser" /> -->
+        </div>
+        <div class="pub-info">
+          <div class="pub-title">
+            <a href="#" target="_blank">
+              PILLOW: Large-scale harmonisation of sleep data 
+            </a>
+          </div>
+          <div class="pub-authors">
+            <span class="me">Eike Osmers</span>,
+            Linda Beland,
+	    Dorothea Kolossa
+          </div>
+          <div class="pub-venue">in preparation</div>
+          <div class="pub-links">
+            <a href="https://github.com/mtec-TUB/pillow" target="_blank">Code</a>
+            <a href="https://mtec-tub.github.io/pillowcase/" target="_blank">Catalogue</a>
+          </div>
+      </div><!-- /.pub -->
+
+
+    </div><!-- /.pub-list -->
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <footer>
+    <p>Last updated May 2026 </p>
+  </footer>
+
+</div><!-- /.page -->
+
+<script>
+  // Toggles BibTeX blocks open/closed
+  function toggleBibtex(btn) {
+    const block = btn.closest('.pub-info').querySelector('.bibtex-block');
+    block.classList.toggle('open');
+    btn.textContent = block.classList.contains('open') ? 'Hide BibTeX' : 'BibTeX';
+  }
+</script>
+</body>
+</html>
